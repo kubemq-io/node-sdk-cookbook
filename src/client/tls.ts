@@ -1,5 +1,5 @@
-import { Client } from '../../src';
-import { Config } from '../../src';
+import { Client } from 'kubemq-js';
+import { Config } from 'kubemq-js';
 const cert = `-----BEGIN CERTIFICATE-----
 MIIEZTCCAs2gAwIBAgIQNakMiOugpZk/xMBRgiaAyTANBgkqhkiG9w0BAQsFADCB
 kTEeMBwGA1UEChMVbWtjZXJ0IGRldmVsb3BtZW50IENBMTMwMQYDVQQLDCpERVNL

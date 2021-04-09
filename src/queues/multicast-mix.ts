@@ -5,7 +5,7 @@ import {
   EventsStoreClient,
   EventStoreType,
   QueuesClient,
-} from '../../src';
+} from 'kubemq-js';
 
 async function main() {
   const opts: Config = {

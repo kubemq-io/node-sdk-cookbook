@@ -1,5 +1,5 @@
-import { Client } from '../../src';
-import { Config } from '../../src';
+import { Client } from 'kubemq-js';
+import { Config } from 'kubemq-js';
 
 async function main() {
   const opts: Config = {

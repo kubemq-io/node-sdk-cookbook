@@ -3,7 +3,7 @@ import {
   QueuesClient,
   QueueTransactionRequest,
   Utils,
-} from '../../src';
+} from 'kubemq-js';
 
 async function main() {
   const opts: Config = {
@@ -28,7 +28,7 @@ async function main() {
   const transactionRequest: QueueTransactionRequest = {
     channel: 'queues.some-queue',
     visibilitySeconds: 60,
-    waitTimoutSeconds: 60,
+    waitTimeoutSeconds: 60,
   };
   await queuesClient
     .transaction(transactionRequest, (err, msg) => {
