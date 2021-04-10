@@ -1,55 +1,42 @@
-import { Config, QueuesClient, Utils } from 'kubemq-js';
+import {
+  Config,
+  QueuesClient,
+  QueueTransactionRequest,
+  Utils,
+} from 'kubemq-js';
 
 const opts: Config = {
-    address: 'localhost:50000',
-    clientId: Utils.uuid(),
-    reconnectInterval: 5000,
+  address: 'localhost:50000',
+  clientId: Utils.uuid(),
 };
 const queuesClient = new QueuesClient(opts);
-
-const sendMessages = async () => {
-    for (let i = 0; i < 100; i++) {
-        await queuesClient
-            .send({
-                channel: 'queues.stream',
-                body: Utils.stringToBytes('queue message'),
-            })
-            .then((value) => console.log(`message ${i} - sent, id: ${value.id}`))
-            .catch((reason) =>
-                console.log(`message ${i} - error, code: ${reason.code}`),
-            );
-        await new Promise((r) => setTimeout(r, 1000));
-    }
+const transactionRequest: QueueTransactionRequest = {
+  channel: 'queues.stream',
+  visibilitySeconds: 60,
+  waitTimeoutSeconds: 60,
 };
+queuesClient
+  .send({
+    channel: 'queues.stream',
+    body: Utils.stringToBytes('queue message'),
+  })
+  .then((result) => console.log(result))
+  .catch((reason) => console.error(reason));
 
-const cb = (err: Error, msg) => {
+queuesClient
+  .transaction(transactionRequest, (err, msg) => {
     if (err) {
-        // console.log(err);
+      console.log(err);
     }
     if (msg) {
-        console.log('Message Received:');
-        console.log(msg.message);
-        msg
-            .ack()
-            .then(() => console.log('Message ack'))
-            .catch((reason) => console.error(reason));
+      console.log('Message Received:');
+      console.log(msg.message);
+      msg
+        .ack()
+        .then(() => console.log('Message ack'))
+        .catch((reason) => console.error(reason));
     }
-};
-sendMessages();
-queuesClient
-    .transactionSubscribe(
-        {
-            channel: 'queues.stream',
-            visibilitySeconds: 60,
-            waitTimeoutSeconds: 1,
-        },
-        cb,
-    )
-    .then(async (value) => {
-        value.onError.on((err) => {
-          console.log(err);
-        });
-        await new Promise((r) => setTimeout(r, 2000000));
-        console.log('done');
-        value.unsubscribe();
-    });
+  })
+  .catch((reason) => {
+    console.error(reason);
+  });
