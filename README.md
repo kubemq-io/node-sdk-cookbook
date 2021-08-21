@@ -2,44 +2,8 @@
 
 KubeMQ JS/TS SDK Cookbook
 
-## Install KubeMQ Cluster/Server
-
-Every installation method requires a KubeMQ key.
-Please [register](https://account.kubemq.io/login/register) to obtain your KubeMQ key.
-
-### Kubernetes
-#### Option 1
-
-Install KubeMQ cluster on any Kubernetes cluster.
-
-Step 1:
-
-``` bash
-kubectl apply -f https://deploy.kubemq.io/init
-```
-
-Step 2:
-
-``` bash
-kubectl apply -f https://deploy.kubemq.io/key/{{your key}}
-```
-#### Option 2
-
-Build and Deploy KubeMQ Cluster with advanced configurations - [Build & Deploy](https://build.kubemq.io/)
-
-#### Port-Forward KubeMQ Grpc Interface
-
-Use kubectl to port-forward kubemq grpc interface
-```
-kubectl port-forward svc/kubemq-cluster-grpc 50000:50000 -n kubemq
-```
-
-### Docker
-
-Pull and run KubeMQ standalone docker container:
-``` bash
-docker run -d -p 8080:8080 -p 50000:50000 -p 9090:9090 KEY={{yourkey}} kubemq/kubemq-standalone:latest
-```
+## Install KubeMQ Community Edition
+Please visit [KubeMQ Community](https://github.com/kubemq-io/kubemq-community) for intallation steps.
 
 ### Binaries
 
